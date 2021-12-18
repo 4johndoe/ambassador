@@ -1,1 +1,3 @@
 .dbdata/
+tmp/
+build-errors.log
