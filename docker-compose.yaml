@@ -22,3 +22,8 @@ services:
       - .dbdata:/var/lib/mysql
     ports:
       - 33066:3306
+
+  adminer:
+    image: adminer
+    ports:
+      - 8090:8080
