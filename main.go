@@ -3,6 +3,7 @@ package main
 import (
 	"ambassador/src/database"
 	"ambassador/src/routes"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -12,6 +13,10 @@ func main() {
 	database.AutoMigrate()
 
 	app := fiber.New()
+
+	app.Use(cors.New(cors.Config{
+		AllowCredentials: true,
+	}))
 
 	routes.Setup(app)
 
