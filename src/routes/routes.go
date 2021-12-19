@@ -7,6 +7,8 @@ import (
 )
 
 func Setup(app *fiber.App) {
+	app.Get("/", controllers.Index)
+
 	api := app.Group("api")
 
 	admin := api.Group("admin")
