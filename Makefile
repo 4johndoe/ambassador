@@ -8,4 +8,6 @@ down:
 	docker-compose down --remove-orphans
 
 seed:
-	docker-compose run backend 'go run /app/src/commands/populateUsers.go'
+	go run /app/src/commands/populateUsers.go
+	go run /app/src/commands/populateProducts.go
+	go run /app/src/commands/populateOrders.go
