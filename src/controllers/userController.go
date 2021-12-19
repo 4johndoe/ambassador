@@ -3,6 +3,8 @@ package controllers
 import (
 	"ambassador/src/database"
 	"ambassador/src/models"
+	"context"
+	"github.com/go-redis/redis/v8"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -15,21 +17,20 @@ func Ambassadors(c *fiber.Ctx) error {
 }
 
 func Ranking(c *fiber.Ctx) error {
-	var users []models.User
 
-	database.DB.Find(&users, models.User{
-		IsAmbassador: true,
-	})
+	rankings, err := database.Cache.ZRevRangeByScoreWithScores(context.Background(), "rankings", &redis.ZRangeBy{
+		Min: "-inf",
+		Max: "+inf",
+	}).Result()
 
-	var result []interface{}
+	if err != nil {
+		return err
+	}
 
-	for _, user := range users {
-		ambassador := models.Ambassador(user)
-		ambassador.CalculateRevenue(database.DB)
+	result := make(map[string]float64)
 
-		result = append(result, fiber.Map{
-			user.Name(): ambassador.Revenue,
-		})
+	for _, ranking := range rankings {
+		result[ranking.Member.(string)] = ranking.Score
 	}
 
 	return c.JSON(result)
