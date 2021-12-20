@@ -32,4 +32,4 @@ services:
   adminer:
     image: adminer
     ports:
-      - 8090:8080
+      - 7090:8080
