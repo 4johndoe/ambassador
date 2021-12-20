@@ -4,6 +4,7 @@ import (
 	"ambassador/src/database"
 	"ambassador/src/routes"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/joho/godotenv"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -22,5 +23,7 @@ func main() {
 
 	routes.Setup(app)
 
-	app.Listen(":7000")
+	godotenv.Load()
+
+	app.Listen(":8000")
 }
